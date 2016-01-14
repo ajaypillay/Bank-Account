@@ -2,6 +2,10 @@
 #include <string> 
 using namespace std; 
 
+#include <iostream>
+#include <string> 
+using namespace std; 
+
 class bankAccount {
 protected: // may need to be changed to protected later 
   string name;
@@ -15,10 +19,15 @@ protected: // may need to be changed to protected later
   
 public:
   bankAccount (string, int, int, char, char); // initialize private/protected data members
+  bankAccount ();
   void showBankAccount (void);
   
 };
-  
+
+  bankAccount :: bankAccount (){
+  }
+
+
   bankAccount :: bankAccount (string n, int acc, int a, char d, char g){
     // remember to use fflush(stdin);
     name = n;
@@ -32,9 +41,9 @@ public:
   void bankAccount :: showBankAccount (void){
     cout << "Hello " << name << endl; 
     
-    if (g == 'm'|| g == 'M'){
+    if (gender == 'm'|| gender == 'M'){
       cout <<"Gender: Male" << endl; 
-    } else if ( g == 'f' || g == 'F'){
+    } else if ( gender == 'f' || gender == 'F'){
       cout << "Gender: Female" << endl;
     }
     
@@ -64,6 +73,9 @@ public:
     void inputWithdrawalDeposit(void);
     void updateBalance(void);
     void showBalance(void);
+	balanceCheck();
+
+	
   };
   
   void balanceCheck::inputWithdrawalDeposit(void){
@@ -90,11 +102,17 @@ public:
   void balanceCheck:: showBalance (void) {
     cout <<"Your balance is: " << accountBalance << endl;
   }
+
+  balanceCheck::balanceCheck(){
+	  depositAmount =0;
+	  withdrawalAmount = 0;
+  }
+
+
+  
   
   /* so what we need to do is to 
   1. ask if the user wants to withdraw/deposit, and then records the amount ---> inputWithdrawalDeposit();
   2. then call updateBalance() to update the amount deposited / withdrawn to accountBalance;
   3. anytime i need to check accountBalance, call showBalance(); 
-  
-
-
+  */

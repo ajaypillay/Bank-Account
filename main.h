@@ -7,7 +7,7 @@ protected: // may need to be changed to protected later
   string name;
   int accountNumber;
   int age;
-  char deposit; 
+  char typeDeposit; 
   char gender; // m / M / f / F 
   //saving account = s ;
   //golden account = g ;
@@ -24,7 +24,7 @@ public:
     name = n;
     accountNumber = acc;
     age = a;
-    deposit = d;
+    typeDeposit = d;
     gender = g; 
     
   }
@@ -42,12 +42,12 @@ public:
     cout << "Age: " << age << endl; 
     cout << "This is your account number: " << accountNumber << endl;
     
-    if ( deposit == 's') {
+    if ( typeDeposit == 's') {
       cout << "Type of deposit: Saving Account. " << endl;
-    } else if (deposit == 'g') {
+    } else if (typeDeposit == 'g') {
       cout <<"Type of deposit: Golden Account. " << endl;
-    } else if (deposit == 'f'){
-      cout <<"Type of deposit: Fixed Deposite. " << endl;
+    } else if (typeDeposit == 'f'){
+      cout <<"Type of deposit: Fixed Deposit. " << endl;
     }
     
     }

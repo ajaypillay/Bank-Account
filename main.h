@@ -1,5 +1,5 @@
 class bankAccount {
-private: // may need to be changed to protected later 
+protected: // may need to be changed to protected later 
   string name;
   int accountNumber;
   int age;
@@ -49,5 +49,46 @@ public:
     }
 
 
+  class balanceCheck : public bankAccount { // child of bankAccount
+  private: // not sure if need to be protected yet 
+    double accountBalance;
+    char modeBalance; // d for deposite and w for withdrawal
+    double depositAmount, withdrawalAmount;
+    double amountWithdrawal;
+    double amountDeposit;
+  public:
+    void inputWithdrawalDeposit;
+    void updateBalance(void);
+    void showBalance(void);
+  };
   
+  void inputWithdrawalDeposit(void){
+    cout <<"Please select the mode (Withdrawal : w / Deposit : g): " << endl;
+    cin >> modeBalance; 
+    
+    if (modeBalance == 'w'){
+      cout <<"Please enter the amount you wish to withdraw: " << endl;
+      cin >> withdrawalAmount;
+    } else if (modeBalance == 'd'){
+      cout <<"Please enter the amount you wish to deposit: " << endl;
+      cin >> depositAmount;
+    }
+  }
+  
+  void updateBalance (void){
+    if (modeBalance == 'd'){
+      accountBalance = accountBalance + depositAmount; 
+    } else if (modeBalance =='w'){
+      accountBalance = accountBalance + withdrawalAmount; 
+    }
+  }
+  
+  void showBalance (void) {
+    cout <<"Your balance is: " << accountBalance << endl;
+  }
+  
+  /* so what we need to do is to 
+  1. ask if the user wants to withdraw/deposit, and then records the amount ---> inputWithdrawalDeposit();
+  2. then call updateBalance() to update the amount deposited / withdrawn to accountBalance;
+  3. anytime i need to check accountBalance, call showBalance(); 
   

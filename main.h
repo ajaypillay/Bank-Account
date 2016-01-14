@@ -1,3 +1,7 @@
+#include <iostream>
+#include <string> 
+using namespace std; 
+
 class bankAccount {
 protected: // may need to be changed to protected later 
   string name;
@@ -10,12 +14,12 @@ protected: // may need to be changed to protected later
   //fixed deposit = f ;
   
 public:
-  bankAccount (); // initialize private/protected data members
+  bankAccount (string, int, int, char, char); // initialize private/protected data members
   void showBankAccount (void);
   
 };
   
-  void bankAccount :: bankAccount (string n, int acc, int a, char d, char g){
+  bankAccount :: bankAccount (string n, int acc, int a, char d, char g){
     // remember to use fflush(stdin);
     name = n;
     accountNumber = acc;
@@ -57,12 +61,12 @@ public:
     double amountWithdrawal;
     double amountDeposit;
   public:
-    void inputWithdrawalDeposit;
+    void inputWithdrawalDeposit(void);
     void updateBalance(void);
     void showBalance(void);
   };
   
-  void inputWithdrawalDeposit(void){
+  void balanceCheck::inputWithdrawalDeposit(void){
     cout <<"Please select the mode (Withdrawal : w / Deposit : g): " << endl;
     cin >> modeBalance; 
     
@@ -75,7 +79,7 @@ public:
     }
   }
   
-  void updateBalance (void){
+  void balanceCheck::updateBalance (void){
     if (modeBalance == 'd'){
       accountBalance = accountBalance + depositAmount; 
     } else if (modeBalance =='w'){
@@ -83,7 +87,7 @@ public:
     }
   }
   
-  void showBalance (void) {
+  void balanceCheck:: showBalance (void) {
     cout <<"Your balance is: " << accountBalance << endl;
   }
   
@@ -92,3 +96,5 @@ public:
   2. then call updateBalance() to update the amount deposited / withdrawn to accountBalance;
   3. anytime i need to check accountBalance, call showBalance(); 
   
+
+

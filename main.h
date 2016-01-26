@@ -19,13 +19,9 @@ protected: // may need to be changed to protected later
   
 public:
   bankAccount (string, int, int, char, char); // initialize private/protected data members
-  bankAccount ();
   void showBankAccount (void);
   
 };
-
-  bankAccount :: bankAccount (){
-  }
 
 
   bankAccount :: bankAccount (string n, int acc, int a, char d, char g){
@@ -39,7 +35,7 @@ public:
   }
   
   void bankAccount :: showBankAccount (void){
-    cout << "Hello " << name << endl; 
+    cout <<endl<< "Hello " << name << endl; 
     
     if (gender == 'm'|| gender == 'M'){
       cout <<"Gender: Male" << endl; 
@@ -73,14 +69,18 @@ public:
     void inputWithdrawalDeposit(void);
     void updateBalance(void);
     void showBalance(void);
-	balanceCheck();
-
-	
+	balanceCheck(string, int, int, char, char);
   };
   
   void balanceCheck::inputWithdrawalDeposit(void){
-    cout <<"Please select the mode (Withdrawal : w / Deposit : g): " << endl;
+    cout <<"Please select the mode (Withdrawal : w / Deposit : d): ";
     cin >> modeBalance; 
+
+	if (accountBalance <= 0 && modeBalance == 'w'){
+		cout <<endl <<"Gentle reminder: " << endl; 
+		cout <<"Your balance is lesser or equals to zero, unable to perform any withdrawal operations. " << endl;
+		return ; 
+	}
     
     if (modeBalance == 'w'){
       cout <<"Please enter the amount you wish to withdraw: " << endl;
@@ -95,21 +95,25 @@ public:
     if (modeBalance == 'd'){
       accountBalance = accountBalance + depositAmount; 
     } else if (modeBalance =='w'){
-      accountBalance = accountBalance + withdrawalAmount; 
+      accountBalance = accountBalance - withdrawalAmount; 
     }
   }
   
   void balanceCheck:: showBalance (void) {
-    cout <<"Your balance is: " << accountBalance << endl;
-  }
-
-  balanceCheck::balanceCheck(){
-	  depositAmount =0;
-	  withdrawalAmount = 0;
+    cout <<"Your balance is: " << accountBalance << endl << endl;
   }
 
 
-  
+ balanceCheck :: balanceCheck (string n, int acc, int a, char d, char g) : bankAccount(n,acc, a, d, g) {
+	name = n;
+    accountNumber = acc;
+    age = a;
+    typeDeposit = d;
+    gender = g;
+	depositAmount =0;
+	withdrawalAmount = 0;
+	accountBalance = 0;
+  }
   
   /* so what we need to do is to 
   1. ask if the user wants to withdraw/deposit, and then records the amount ---> inputWithdrawalDeposit();

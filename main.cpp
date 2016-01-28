@@ -21,16 +21,20 @@ int main (){
 	cin >> typeDeposit;
 
 	balanceCheck account_1(name,accountNumber, age, typeDeposit, gender);  //creating an object of child 
-
+	account_1.checkGoldenAccountValidity();
 	account_1.showBankAccount();
 	account_1. inputWithdrawalDeposit();
 	account_1.updateBalance();
 	account_1. showBalance();
+	account_1.accountCheck();
 
 	return 0;
 
 	// I wanted to access the member functions of the child class using object of parents 
 }
+
+
+
 
 
 

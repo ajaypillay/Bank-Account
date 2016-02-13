@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class existing {
+class existing { // This class allows for reading from Accounts.txt
     public:
         string username;
         string password;
@@ -14,15 +14,17 @@ class existing {
         int age;
         int accountNumber;
         string accountType;
-        int accountBalance;
+        double accountBalance;
         int successStatus = 0; // 1 = success
+        int timeOfCreation;
+        int fixedDepositYears = 0;
     public:
-        void enterCredentials(void);
-        void checkCredentials(void);
-        Logger log;
+        void enterCredentials(void); // Logging in
+        void checkCredentials(void); // Validating login credentials
+        Logger log; // Logger object
 };
 
-void existing::enterCredentials(void) {
+void existing::enterCredentials(void) { // Allows user to enter credentials
     clearScreen();
     cout<<"Username: ";
     getline(cin, username);
@@ -37,9 +39,12 @@ void existing::checkCredentials(void) {
     string line;
     int x = 0;
 
+    // How this works: When a password is detected as correct immediately after a username, it proceeds to read all the info
+    // Line by line after that. Every account follows the same format except Fixed Deposits which have an extra line of info.
+
     if (accounts.is_open()) {
         while (getline(accounts, line)) {
-            if (x == 1) { // Enters this loop for successful username to check password
+            if (x == 1) { // Enters this loop upon a successful username being detected, then checks for password
                 if (password == line){
                     x = 2; // Enters this for successful password
                 }
@@ -69,12 +74,20 @@ void existing::checkCredentials(void) {
                 stringstream(line)>>accountBalance;
                 successStatus = 1;
             }
+            else if (x == 7) {
+                x = 8;
+                stringstream(line)>>timeOfCreation;
+            }
+            else if (x == 8 && accountType == "f") { // Fixed deposit maturity date
+                x = 9;
+                stringstream(line)>>fixedDepositYears;
+            }
             if (username == line) { //Enters this upon username match
                 x = 1;
             }
         }
         accounts.close();
-        if (x == 0){
+        if (x == 0){ // If login was unsuccessful - no credentials stored
             clearScreen();
             cout<<"Login unsuccessful, invalid username or password. Please try again.\n";
             cout<<"Press any key to continue...";
@@ -84,7 +97,9 @@ void existing::checkCredentials(void) {
     }
 }
 
-class saveAccount {
+class saveAccount { // This class deals with saving new account information
+    public:
+        int fixedDepositYears;
     protected:
         string username;
         string password;
@@ -92,14 +107,15 @@ class saveAccount {
         int age;
         int accountNumber;
         string accountType;
-        int balance;
+        double balance;
+        int timeOfCreation;
     public:
-        saveAccount(string, string, string, int, int, string, int);
+        saveAccount(string, string, string, int, int, string, double, int);
         void saveNew(void);
         void saveExisting(void);
 };
 
-saveAccount::saveAccount(string a, string b, string c, int x, int y, string d, int z) {
+saveAccount::saveAccount(string a, string b, string c, int x, int y, string d, double z, int u) {
     username = a;
     password = b;
     gender = c;
@@ -107,10 +123,12 @@ saveAccount::saveAccount(string a, string b, string c, int x, int y, string d, i
     accountNumber = y;
     accountType = d;
     balance = z;
+    timeOfCreation = u;
+    fixedDepositYears = 0;
 }
 
 void saveAccount::saveNew(void) {
-    ofstream accounts;
+    ofstream accounts; // Appends new account info the Accounts.txt
     accounts.open("Accounts.txt", ios_base::app);
     accounts<<"\n"<<username<<"\n";
     accounts<<password<<"\n";
@@ -119,9 +137,11 @@ void saveAccount::saveNew(void) {
     accounts<<accountNumber<<"\n";
     accounts<<accountType<<"\n";
     accounts<<balance<<"\n";
+    accounts<<timeOfCreation<<"\n";
+    if (fixedDepositYears > 0) accounts<<fixedDepositYears<<"\n";
 
     int num;
-    string line;
+    string line; // This increments NumOfAccs upon a successful account creation
     ifstream accountNum ("NumOfAccs.txt");
     if (accountNum.is_open()) {
         while (getline(accountNum, line)){
@@ -137,9 +157,9 @@ void saveAccount::saveNew(void) {
     }
 }
 
-void saveAccount::saveExisting(void) {
+void saveAccount::saveExisting(void) { // This updates existing account info
     ifstream filein("Accounts.txt"); //File to read from
-    ofstream fileout("test.txt"); //Temporary file
+    ofstream fileout("test.txt"); // Temporary file
     string temp;
     int x = 0;
 
